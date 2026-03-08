@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
-<title>Documenti PDF</title>
+<title>Seleziona Cartella</title>
 
 <style>
 body {
@@ -24,32 +24,30 @@ h1 {
   justify-content: space-between;
   align-items: center;
 }
-  .card span {
-  font-size: 45px;
-  font-weight: 800;
+.card span {
+  font-size: 40px;
+  font-weight: 700;
 }
 .card button {
-  background: #007bff;
+  background: #28a745;
   color: white;
   border: none;
-  padding: 25px 45px;
+  padding: 20px 40px;
   border-radius: 6px;
   cursor: pointer;
-  transition: 0.2s;
-   font-size: 30px;
+  font-size: 28px;
   font-weight: 700;
 }
 .card button:hover {
-  background: #0056b3;
+  background: #1e7e34;
 }
-  
 </style>
 </head>
 
 <body>
 
-<h1>Documenti PDF</h1>
-<div id="pdf-container"></div>
+<h1>Seleziona una Cartella</h1>
+<div id="folder-container"></div>
 
 <script>
 const owner = "balza1979";
@@ -60,29 +58,25 @@ const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${folder}
 
 fetch(apiUrl)
   .then(response => response.json())
-  .then(files => {
-    const pdfs = files.filter(f => f.name.toLowerCase().endsWith(".pdf"));
-    const container = document.getElementById("pdf-container");
+  .then(items => {
+    const folders = items.filter(i => i.type === "dir");
+    const container = document.getElementById("folder-container");
 
-    pdfs.forEach(pdf => {
-      const encodedName = encodeURIComponent(pdf.name);
-
-      const pdfUrl = `https://docs.google.com/gview?embedded=1&url=https://${owner}.github.io/${repo}/${folder}/${encodedName}`;
+    folders.forEach(dir => {
+      const encoded = encodeURIComponent(dir.name);
 
       const card = document.createElement("div");
       card.className = "card";
 
       card.innerHTML = `
-        <span>📄 ${pdf.name}</span>
-        <button onclick="window.open('${pdfUrl}', '_blank')">Apri</button>
+        <span>📁 ${dir.name}</span>
+        <button onclick="location.href='lista.html?cartella=${encoded}'">Apri</button>
       `;
 
       container.appendChild(card);
     });
   })
-  .catch(err => {
-    console.error("Errore nel caricamento dei PDF:", err);
-  });
+  .catch(err => console.error("Errore nel caricamento delle cartelle:", err));
 </script>
 
 </body>
