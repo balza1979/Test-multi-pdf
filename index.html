@@ -51,12 +51,10 @@ h1 {
 
 <script>
 const owner = "balza1979";
-const repo = "Test-multi-pdf";
-
+const repo = "Test-multi-pdf";   // <— QUI È L’UNICA COSA IMPORTANTE
 const folder = "pdf";
 
 const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${folder}`;
-
 
 fetch(apiUrl)
   .then(response => response.json())
@@ -83,3 +81,4 @@ fetch(apiUrl)
 
 </body>
 </html>
+
