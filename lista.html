@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>PDF della Cartella</title>
+
+<style>
+body {
+  font-family: Arial;
+  background: #eef1f5;
+  padding: 40px;
+}
+h1 {
+  text-align: center;
+}
+.card {
+  background: white;
+  padding: 20px;
+  margin: 15px auto;
+  max-width: 850px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.card span {
+  font-size: 40px;
+  font-weight: 700;
+}
+.card button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 20px 40px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 28px;
+  font-weight: 700;
+}
+.card button:hover {
+  background: #0056b3;
+}
+</style>
+</head>
+
+<body>
+
+<h1 id="titolo"></h1>
+<div id="pdf-container"></div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const cartella = params.get("cartella");
+
+document.getElementById("titolo").textContent = "PDF in: " + cartella;
+
+const owner = "balza1979";
+const repo = "Elmi-Pdf";
+
+const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/pdf/${cartella}`;
+
+fetch(apiUrl)
+  .then(response => response.json())
+  .then(files => {
+    const pdfs = files.filter(f => f.name.toLowerCase().endsWith(".pdf"));
+    const container = document.getElementById("pdf-container");
+
+    pdfs.forEach(pdf => {
+      const encodedName = encodeURIComponent(pdf.name);
+
+      const viewerUrl = `viewer.html?file=${cartella}/${encodedName}`;
+
+      const card = document.createElement("div");
+      card.className = "card";
+
+      card.innerHTML = `
+        <span>📄 ${pdf.name}</span>
+        <button onclick="location.href='${viewerUrl}'">Apri</button>
+      `;
+
+      container.appendChild(card);
+    });
+  })
+  .catch(err => console.error("Errore nel caricamento dei PDF:", err));
+</script>
+
+</body>
+</html>
