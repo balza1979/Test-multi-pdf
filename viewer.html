@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>Visualizzatore PDF</title>
+<style>
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+</style>
+</head>
+<body>
+
+<script>
+// Legge il nome del PDF dalla query string
+const params = new URLSearchParams(window.location.search);
+const file = params.get("file");
+
+// Percorso assoluto del PDF
+const pdfUrl = `https://balza1979.github.io/Elmi-Pdf/pdf/${file}`;
+
+// Inserisce l'iframe
+document.write(`<iframe src="${pdfUrl}"></iframe>`);
+</script>
+
+</body>
+</html>
