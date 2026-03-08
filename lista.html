@@ -58,7 +58,6 @@ document.getElementById("titolo").textContent = "PDF in: " + cartella;
 const owner = "balza1979";
 const repo = "Test-multi-pdf";
 
-
 const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/pdf/${cartella}`;
 
 fetch(apiUrl)
@@ -69,15 +68,19 @@ fetch(apiUrl)
 
     pdfs.forEach(pdf => {
       const encodedName = encodeURIComponent(pdf.name);
+      const encodedFolder = encodeURIComponent(cartella);
 
-      const viewerUrl = `viewer.html?file=${cartella}/${encodedName}`;
+      // URL diretto a Google Docs Viewer (come nel progetto originale)
+      const pdfUrl =
+        `https://docs.google.com/gview?embedded=1&url=` +
+        `https://${owner}.github.io/${repo}/pdf/${encodedFolder}/${encodedName}`;
 
       const card = document.createElement("div");
       card.className = "card";
 
       card.innerHTML = `
         <span>📄 ${pdf.name}</span>
-        <button onclick="location.href='${viewerUrl}'">Apri</button>
+        <button onclick="window.open('${pdfUrl}', '_blank')">Apri</button>
       `;
 
       container.appendChild(card);
@@ -88,3 +91,4 @@ fetch(apiUrl)
 
 </body>
 </html>
+
