@@ -24,7 +24,8 @@ const params = new URLSearchParams(window.location.search);
 const file = params.get("file");
 
 // Percorso assoluto del PDF
-const pdfUrl = `https://balza1979.github.io/Elmi-Pdf/pdf/${file}`;
+const pdfUrl = `https://balza1979.github.io/Test-multi-pdf/pdf/${file}`;
+
 
 // Inserisce l'iframe
 document.write(`<iframe src="${pdfUrl}"></iframe>`);
