@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -86,9 +85,8 @@ fetch("elenco.json")
       const encodedName = encodeURIComponent(pdf);
       const encodedFolder = encodeURIComponent(cartella);
 
-      const pdfUrl =
-        `https://docs.google.com/gview?embedded=1&url=` +
-        `https://balza1979.github.io/Test-multi-pdf/pdf/${encodedFolder}/${encodedName}`;
+      // 🔥 APERTURA DIRETTA DEL PDF (senza Google Docs Viewer)
+      const pdfUrl = `https://balza1979.github.io/Test-multi-pdf/pdf/${encodedFolder}/${encodedName}`;
 
       const card = document.createElement("div");
       card.className = "card";
