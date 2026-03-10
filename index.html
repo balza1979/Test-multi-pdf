@@ -12,8 +12,6 @@
         background: #f5f5f5;
     }
 
-
-    /* Bottone Home */
     .home-button {
         position: fixed;
         top: 15px;
@@ -34,7 +32,6 @@
         background-color: #c9302c;
     }
 
-    /* Titolo */
     h1 {
         text-align: center;
         margin-top: 120px;
@@ -42,15 +39,13 @@
         color: #333;
     }
 
-    /* Contenitore delle card */
     #folder-container {
         max-width: 900px;
         margin: 40px auto;
         padding: 10px;
-         font-size: 55px;
+        font-size: 55px;
     }
 
-    /* Card */
     .card {
         background: white;
         padding: 20px;
@@ -68,7 +63,6 @@
         font-weight: 700;
     }
 
-    /* Pulsante Apri */
     .card button {
         background: #28a745;
         color: white;
@@ -89,7 +83,6 @@
 </head>
 <body>
 
-
 <a class="home-button" href="https://balza1979.github.io/Elmi-Documenti/">Home</a>
 
 <h1>Seleziona una Cartella</h1>
@@ -97,35 +90,24 @@
 <div id="folder-container"></div>
 
 <script>
-const owner = "balza1979";
-const repo = "Test-multi-pdf";
-const folder = "pdf";
+fetch("elenco.json")
+  .then(r => r.json())
+  .then(data => {
+    const container = document.getElementById("folder-container");
 
-const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${folder}`;
+    Object.keys(data).forEach(cartella => {
+      const card = document.createElement("div");
+      card.className = "card";
 
-fetch(apiUrl)
-    .then(response => response.json())
-    .then(items => {
-        const folders = items.filter(i => i.type === "dir");
-        const container = document.getElementById("folder-container");
+      card.innerHTML = `
+        <span>${cartella}</span>
+        <button onclick="window.location.href='pdf.html?cartella=${encodeURIComponent(cartella)}'">Apri</button>
+      `;
 
-        folders.forEach(dir => {
-            const encoded = encodeURIComponent(dir.name);
-
-            const card = document.createElement("div");
-            card.className = "card";
-
-            card.innerHTML = `
-                <span>📁 ${dir.name}</span>
-                <button onclick="location.href='lista.html?cartella=${encoded}'">Apri</button>
-            `;
-
-            container.appendChild(card);
-        });
-    })
-    .catch(err => console.error("Errore nel caricamento delle cartelle:", err));
+      container.appendChild(card);
+    });
+  });
 </script>
 
 </body>
 </html>
-
