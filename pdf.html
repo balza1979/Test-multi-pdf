@@ -59,6 +59,10 @@ h1 {
 .card button:hover {
   background: #0056b3;
 }
+
+#testFrame {
+  display: none;
+}
 </style>
 </head>
 
@@ -68,6 +72,9 @@ h1 {
 
 <h1 id="titolo"></h1>
 <div id="pdf-container"></div>
+
+<!-- iframe invisibile per testare i PDF -->
+<iframe id="testFrame"></iframe>
 
 <script>
 const params = new URLSearchParams(window.location.search);
@@ -85,20 +92,15 @@ fetch("elenco.json")
       const encodedName = encodeURIComponent(pdf);
       const encodedFolder = encodeURIComponent(cartella);
 
-      // URL diretto al PDF
       const directUrl = `https://balza1979.github.io/Test-multi-pdf/pdf/${encodedFolder}/${encodedName}`;
-
-      // URL Google Docs Viewer (fallback)
-      const gviewUrl =
-        `https://docs.google.com/gview?embedded=1&url=` +
-        directUrl;
+      const gviewUrl = `https://docs.google.com/gview?embedded=1&url=${directUrl}`;
 
       const card = document.createElement("div");
       card.className = "card";
 
       card.innerHTML = `
         <span>📄 ${pdf}</span>
-        <button onclick="openPdf('${directUrl}', '${gviewUrl}')">Apri</button>
+        <button onclick="safeOpen('${directUrl}', '${gviewUrl}')">Apri</button>
       `;
 
       container.appendChild(card);
@@ -106,27 +108,28 @@ fetch("elenco.json")
   });
 
 
-// 🔥 Funzione che prova l'apertura diretta, e se fallisce usa Google Docs Viewer
-function openPdf(directUrl, gviewUrl) {
-  const win = window.open(directUrl, "_blank");
+// 🔥 Apertura sicura con test invisibile
+function safeOpen(directUrl, gviewUrl) {
+  const frame = document.getElementById("testFrame");
 
-  // Se il browser blocca l'apertura diretta → win sarà null
-  if (!win) {
-    window.open(gviewUrl, "_blank");
-    return;
-  }
+  // Proviamo a caricare il PDF nell'iframe invisibile
+  frame.src = directUrl;
 
-  // Controllo aggiuntivo: se il PDF non si carica entro 1.5 secondi → fallback
+  // Dopo 1 secondo controlliamo se il PDF è stato caricato
   setTimeout(() => {
     try {
-      if (win.location.href === "about:blank") {
-        win.location.href = gviewUrl;
+      // Se l'iframe è ancora about:blank → PDF problematico
+      if (frame.contentWindow.location.href === "about:blank") {
+        window.open(gviewUrl, "_blank");
+      } else {
+        // PDF buono → apri direttamente
+        window.open(directUrl, "_blank");
       }
     } catch (e) {
-      // Se il browser blocca l'accesso → fallback
-      win.location.href = gviewUrl;
+      // Se il browser blocca l'accesso → PDF problematico
+      window.open(gviewUrl, "_blank");
     }
-  }, 1500);
+  }, 1000);
 }
 </script>
 
