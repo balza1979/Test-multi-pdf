@@ -85,21 +85,35 @@ fetch("elenco.json")
       const encodedName = encodeURIComponent(pdf);
       const encodedFolder = encodeURIComponent(cartella);
 
-      // 🔥 APERTURA DIRETTA DEL PDF (senza Google Docs Viewer)
-      const pdfUrl = `https://balza1979.github.io/Test-multi-pdf/pdf/${encodedFolder}/${encodedName}`;
+      // URL diretto al PDF
+      const directUrl = `https://balza1979.github.io/Test-multi-pdf/pdf/${encodedFolder}/${encodedName}`;
+
+      // URL Google Docs Viewer (fallback)
+      const gviewUrl =
+        `https://docs.google.com/gview?embedded=1&url=` +
+        directUrl;
 
       const card = document.createElement("div");
       card.className = "card";
 
       card.innerHTML = `
         <span>📄 ${pdf}</span>
-        <button onclick="window.open('${pdfUrl}', '_blank')">Apri</button>
+        <button onclick="openPdf('${directUrl}', '${gviewUrl}')">Apri</button>
       `;
 
       container.appendChild(card);
     });
   });
-</script>
 
-</body>
-</html>
+
+// 🔥 Funzione che prova l'apertura diretta, e se fallisce usa Google Docs Viewer
+function openPdf(directUrl, gviewUrl) {
+  const win = window.open(directUrl, "_blank");
+
+  // Se il browser blocca l'apertura diretta → win sarà null
+  if (!win) {
+    window.open(gviewUrl, "_blank");
+    return;
+  }
+
+  // Controllo aggiuntivo: se il PDF non si carica entro 1.5 second
