@@ -19,18 +19,13 @@ iframe {
 <body>
 
 <script>
-// Legge il nome del PDF dalla query string
 const params = new URLSearchParams(window.location.search);
 const file = params.get("file");
 
-// Percorso corretto con Google Docs Viewer
 const pdfUrl = `https://docs.google.com/gview?embedded=1&url=https://balza1979.github.io/Test-multi-pdf/pdf/${file}`;
 
-// Inserisce l'iframe
 document.write(`<iframe src="${pdfUrl}"></iframe>`);
 </script>
-
-
 
 </body>
 </html>
