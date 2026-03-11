@@ -145,17 +145,17 @@ fetch("elenco.json")
   });
 
 
-// ⚡ APERTURA VELOCE (metodo iniziale ripristinato)
+// ⚡ APERTURA VELOCE (identica alle API)
 function openFast(url) {
-  // Apri subito una scheda vuota
-  const win = window.open("about:blank", "_blank");
+  // Apri subito una scheda con un file finto
+  const win = window.open("blank.html", "_blank");
 
   if (!win) return;
 
-  // Trucco del metodo iniziale: cambio URL dopo un istante
+  // Dopo un istante, sostituisci con il PDF
   setTimeout(() => {
     win.location.href = url;
-  }, 50);
+  }, 80);
 }
 
 
