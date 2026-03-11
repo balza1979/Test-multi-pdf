@@ -60,6 +60,31 @@ h1 {
   background: #0056b3;
 }
 
+/* Popup centrale */
+#loadingPopup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 30px 50px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+  font-size: 28px;
+  font-weight: bold;
+  display: none;
+  z-index: 2000;
+  text-align: center;
+}
+
+#loadingPopup span {
+  display: block;
+  margin-top: 15px;
+  font-size: 22px;
+  font-weight: normal;
+}
+
+/* iframe invisibile */
 #testFrame {
   display: none;
 }
@@ -73,7 +98,13 @@ h1 {
 <h1 id="titolo"></h1>
 <div id="pdf-container"></div>
 
-<!-- iframe invisibile per testare i PDF -->
+<!-- Popup caricamento -->
+<div id="loadingPopup">
+  ⏳ Caricamento del documento...
+  <span>Attendere qualche secondo</span>
+</div>
+
+<!-- iframe invisibile per test PDF -->
 <iframe id="testFrame"></iframe>
 
 <script>
@@ -108,28 +139,46 @@ fetch("elenco.json")
   });
 
 
-// 🔥 Apertura sicura con test invisibile
+// 🔥 Funzione con tentativi automatici + popup caricamento
 function safeOpen(directUrl, gviewUrl) {
-  const frame = document.getElementById("testFrame");
+  showLoading(true);
 
-  // Proviamo a caricare il PDF nell'iframe invisibile
-  frame.src = directUrl;
+  let attempts = 0;
+  const maxAttempts = 3;
 
-  // Dopo 1 secondo controlliamo se il PDF è stato caricato
-  setTimeout(() => {
-    try {
-      // Se l'iframe è ancora about:blank → PDF problematico
-      if (frame.contentWindow.location.href === "about:blank") {
-        window.open(gviewUrl, "_blank");
-      } else {
-        // PDF buono → apri direttamente
-        window.open(directUrl, "_blank");
+  function tryLoad() {
+    attempts++;
+    const frame = document.getElementById("testFrame");
+    frame.src = directUrl;
+
+    setTimeout(() => {
+      let loaded = false;
+
+      try {
+        loaded = frame.contentWindow.location.href !== "about:blank";
+      } catch (e) {
+        loaded = false;
       }
-    } catch (e) {
-      // Se il browser blocca l'accesso → PDF problematico
-      window.open(gviewUrl, "_blank");
-    }
-  }, 1000);
+
+      if (loaded) {
+        showLoading(false);
+        window.open(directUrl, "_blank");
+      } else if (attempts < maxAttempts) {
+        tryLoad();
+      } else {
+        showLoading(false);
+        window.open(gviewUrl, "_blank");
+      }
+    }, 900);
+  }
+
+  tryLoad();
+}
+
+
+// Mostra/nasconde popup caricamento
+function showLoading(show) {
+  document.getElementById("loadingPopup").style.display = show ? "block" : "none";
 }
 </script>
 
