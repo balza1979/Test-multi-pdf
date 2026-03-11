@@ -136,7 +136,7 @@ fetch("elenco.json")
         <div class="card-title">📄 ${pdf}</div>
         <div class="button-row">
           <button onclick="openFast('${directUrl}')">Apertura Veloce</button>
-          <button onclick="openSafe('${directUrl}', '${gviewUrl}')">Apertura Sicura</button>
+          <button onclick="openSafe('${directUrl}', '${gviewUrl}')">Apertura con Controllo</button>
         </div>
       `;
 
@@ -145,13 +145,21 @@ fetch("elenco.json")
   });
 
 
-// ⚡ Apertura veloce (senza controlli)
+// ⚡ APERTURA VELOCE (metodo iniziale ripristinato)
 function openFast(url) {
-  window.open(url, "_blank");
+  // Apri subito una scheda vuota
+  const win = window.open("about:blank", "_blank");
+
+  if (!win) return;
+
+  // Trucco del metodo iniziale: cambio URL dopo un istante
+  setTimeout(() => {
+    win.location.href = url;
+  }, 50);
 }
 
 
-// 🛡️ Apertura sicura (test unico da 5 secondi)
+// 🛡️ APERTURA CON CONTROLLO (test unico da 5 secondi)
 function openSafe(directUrl, gviewUrl) {
   showLoading(true, "Caricamento del documento...", "Attendere qualche secondo");
 
