@@ -101,7 +101,7 @@ h1 {
 <!-- Popup caricamento -->
 <div id="loadingPopup">
   ⏳ Caricamento del documento...
-  <span>Attendere qualche secondo</span>
+  <span id="loadingSub">Attendere qualche secondo</span>
 </div>
 
 <!-- iframe invisibile per test PDF -->
@@ -139,13 +139,13 @@ fetch("elenco.json")
   });
 
 
-// 🔥 Doppio test: 1.5s + 2.5s
+// 🔥 Doppio test: 2.5s + 3.5s con messaggio dinamico
 function safeOpen(directUrl, gviewUrl) {
-  showLoading(true);
+  showLoading(true, "Caricamento del documento...", "Attendere qualche secondo");
 
   const frame = document.getElementById("testFrame");
 
-  // Primo test: 1.5 secondi
+  // Primo test: 2.5 secondi
   frame.src = directUrl;
 
   setTimeout(() => {
@@ -163,7 +163,10 @@ function safeOpen(directUrl, gviewUrl) {
       return;
     }
 
-    // Secondo test: 2.5 secondi
+    // Aggiorna messaggio per il secondo tentativo
+    showLoading(true, "Primo tentativo fallito", "Riprovo...");
+
+    // Secondo test: 3.5 secondi
     frame.src = directUrl;
 
     setTimeout(() => {
@@ -183,15 +186,20 @@ function safeOpen(directUrl, gviewUrl) {
         window.open(gviewUrl, "_blank");
       }
 
-    }, 2500);
+    }, 3500);
 
-  }, 1500);
+  }, 2500);
 }
 
 
 // Mostra/nasconde popup caricamento
-function showLoading(show) {
-  document.getElementById("loadingPopup").style.display = show ? "block" : "none";
+function showLoading(show, title = "", subtitle = "") {
+  const popup = document.getElementById("loadingPopup");
+  const sub = document.getElementById("loadingSub");
+
+  popup.style.display = show ? "block" : "none";
+  if (title) popup.childNodes[0].textContent = "⏳ " + title;
+  if (subtitle) sub.textContent = subtitle;
 }
 </script>
 
