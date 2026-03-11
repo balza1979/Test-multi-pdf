@@ -14,6 +14,7 @@ body {
   font-family: Arial;
   color: #333;
   flex-direction: column;
+  text-align: center;
 }
 
 .loader {
@@ -35,12 +36,29 @@ h2 {
   font-size: 28px;
   margin: 0;
 }
+
+#timeoutMsg {
+  display: none;
+  font-size: 22px;
+  margin-top: 20px;
+  color: #d00;
+}
 </style>
 </head>
 <body>
 
 <div class="loader"></div>
 <h2>Caricamento del documento…</h2>
+<div id="timeoutMsg">Impossibile caricare il documento. Riprova.</div>
+
+<script>
+// Timeout di sicurezza: dopo 10 secondi mostra un messaggio
+setTimeout(() => {
+  document.querySelector(".loader").style.display = "none";
+  document.querySelector("h2").textContent = "Operazione troppo lenta";
+  document.getElementById("timeoutMsg").style.display = "block";
+}, 10000);
+</script>
 
 </body>
 </html>
