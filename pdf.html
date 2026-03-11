@@ -139,13 +139,13 @@ fetch("elenco.json")
   });
 
 
-// 🔥 Doppio test: 2.5s + 3.5s con messaggio dinamico
+// 🔥 Doppio test: 3.5s + 5s con messaggio dinamico
 function safeOpen(directUrl, gviewUrl) {
   showLoading(true, "Caricamento del documento...", "Attendere qualche secondo");
 
   const frame = document.getElementById("testFrame");
 
-  // Primo test: 2.5 secondi
+  // Primo test: 3.5 secondi
   frame.src = directUrl;
 
   setTimeout(() => {
@@ -164,9 +164,9 @@ function safeOpen(directUrl, gviewUrl) {
     }
 
     // Aggiorna messaggio per il secondo tentativo
-    showLoading(true, "Primo tentativo fallito", "Riprovo...");
+    showLoading(true, "Primo tentativo fallito", "Riprovo con un controllo più approfondito...");
 
-    // Secondo test: 3.5 secondi
+    // Secondo test: 5 secondi
     frame.src = directUrl;
 
     setTimeout(() => {
@@ -186,9 +186,9 @@ function safeOpen(directUrl, gviewUrl) {
         window.open(gviewUrl, "_blank");
       }
 
-    }, 3500);
+    }, 5000);
 
-  }, 2500);
+  }, 3500);
 }
 
 
