@@ -154,8 +154,8 @@ function openFast(url) {
 // 🟢 VEDI ONLINE (scheda aperta subito + loader + test + fallback)
 function openSafe(directUrl, gviewUrl) {
 
-  // 1️⃣ Apriamo SUBITO una scheda con loader (Safari-friendly)
-  const newTab = window.open("loading.html", "_blank");
+  // 1️⃣ Apriamo SUBITO una scheda con loader (percorso assoluto)
+  const newTab = window.open("https://balza1979.github.io/Test-multi-pdf/loading.html", "_blank");
 
   if (!newTab) return; // popup blocker
 
