@@ -135,8 +135,8 @@ fetch("elenco.json")
       card.innerHTML = `
         <div class="card-title">📄 ${pdf}</div>
         <div class="button-row">
-          <button onclick="openFast('${directUrl}')">Apertura Veloce</button>
-          <button onclick="openSafe('${directUrl}', '${gviewUrl}')">Apertura con Controllo</button>
+          <button onclick="openFast('${directUrl}')">Vedi/Scarica</button>
+          <button onclick="openSafe('${directUrl}', '${gviewUrl}')">Vedi Online</button>
         </div>
       `;
 
@@ -145,21 +145,13 @@ fetch("elenco.json")
   });
 
 
-// ⚡ APERTURA VELOCE (identica alle API)
+// 🔵 VEDI/SCARICA (comportamento nativo del browser)
 function openFast(url) {
-  // Apri subito una scheda con un file finto
-  const win = window.open("blank.html", "_blank");
-
-  if (!win) return;
-
-  // Dopo un istante, sostituisci con il PDF
-  setTimeout(() => {
-    win.location.href = url;
-  }, 80);
+  window.open(url, "_blank");
 }
 
 
-// 🛡️ APERTURA CON CONTROLLO (test unico da 5 secondi)
+// 🟢 VEDI ONLINE (test unico da 5 secondi + fallback)
 function openSafe(directUrl, gviewUrl) {
   showLoading(true, "Caricamento del documento...", "Attendere qualche secondo");
 
