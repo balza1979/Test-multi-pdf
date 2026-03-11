@@ -38,23 +38,26 @@ h1 {
   max-width: 850px;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
-.card span {
+.card-title {
   font-size: 40px;
   font-weight: 700;
+  margin-bottom: 15px;
+}
+.button-row {
+  display: flex;
+  gap: 20px;
 }
 .card button {
   background: #007bff;
   color: white;
   border: none;
-  padding: 20px 40px;
+  padding: 18px 32px;
   border-radius: 6px;
   cursor: pointer;
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 700;
+  flex: 1;
 }
 .card button:hover {
   background: #0056b3;
@@ -130,8 +133,11 @@ fetch("elenco.json")
       card.className = "card";
 
       card.innerHTML = `
-        <span>📄 ${pdf}</span>
-        <button onclick="safeOpen('${directUrl}', '${gviewUrl}')">Apri</button>
+        <div class="card-title">📄 ${pdf}</div>
+        <div class="button-row">
+          <button onclick="openFast('${directUrl}')">Apertura Veloce</button>
+          <button onclick="openSafe('${directUrl}', '${gviewUrl}')">Apertura Sicura</button>
+        </div>
       `;
 
       container.appendChild(card);
@@ -139,8 +145,14 @@ fetch("elenco.json")
   });
 
 
-// 🔥 Test unico da 5 secondi
-function safeOpen(directUrl, gviewUrl) {
+// ⚡ Apertura veloce (senza controlli)
+function openFast(url) {
+  window.open(url, "_blank");
+}
+
+
+// 🛡️ Apertura sicura (test unico da 5 secondi)
+function openSafe(directUrl, gviewUrl) {
   showLoading(true, "Caricamento del documento...", "Attendere qualche secondo");
 
   const frame = document.getElementById("testFrame");
@@ -167,7 +179,7 @@ function safeOpen(directUrl, gviewUrl) {
 }
 
 
-// Mostra/nasconde popup caricamento
+// Popup
 function showLoading(show, title = "", subtitle = "") {
   const popup = document.getElementById("loadingPopup");
   const sub = document.getElementById("loadingSub");
