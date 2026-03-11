@@ -145,19 +145,28 @@ fetch("elenco.json")
   });
 
 
-// 🔵 VEDI/SCARICA (comportamento nativo del browser)
+// 🔵 VEDI/SCARICA (comportamento nativo)
 function openFast(url) {
   window.open(url, "_blank");
 }
 
 
-// 🟢 VEDI ONLINE (test unico da 5 secondi + fallback)
+// 🟢 VEDI ONLINE (scheda aperta subito + test + fallback)
 function openSafe(directUrl, gviewUrl) {
+
+  // 1️⃣ Apriamo SUBITO una scheda vuota (Safari la accetta)
+  const newTab = window.open("about:blank", "_blank");
+
+  if (!newTab) return; // popup blocker
+
+  // 2️⃣ Mostriamo popup
   showLoading(true, "Caricamento del documento...", "Attendere qualche secondo");
 
+  // 3️⃣ Avviamo test invisibile
   const frame = document.getElementById("testFrame");
   frame.src = directUrl;
 
+  // 4️⃣ Dopo 5 secondi decidiamo cosa fare
   setTimeout(() => {
     let loaded = false;
 
@@ -169,10 +178,11 @@ function openSafe(directUrl, gviewUrl) {
 
     showLoading(false);
 
+    // 5️⃣ Cambiamo l’URL della scheda già aperta
     if (loaded) {
-      window.open(directUrl, "_blank");
+      newTab.location.href = directUrl;
     } else {
-      window.open(gviewUrl, "_blank");
+      newTab.location.href = gviewUrl;
     }
 
   }, 5000);
