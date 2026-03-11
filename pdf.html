@@ -139,40 +139,37 @@ fetch("elenco.json")
   });
 
 
-// 🔥 Funzione con tentativi automatici + popup caricamento
+// 🔥 Apertura immediata + 1 test da 2.5 secondi
 function safeOpen(directUrl, gviewUrl) {
+  // 1️⃣ Prova apertura immediata
+  const win = window.open(directUrl, "_blank");
+
+  // Se il browser apre una scheda → PDF buono → fine
+  if (win) return;
+
+  // 2️⃣ Se non apre → test invisibile
   showLoading(true);
 
-  let attempts = 0;
-  const maxAttempts = 3;
+  const frame = document.getElementById("testFrame");
+  frame.src = directUrl;
 
-  function tryLoad() {
-    attempts++;
-    const frame = document.getElementById("testFrame");
-    frame.src = directUrl;
+  setTimeout(() => {
+    let loaded = false;
 
-    setTimeout(() => {
-      let loaded = false;
+    try {
+      loaded = frame.contentWindow.location.href !== "about:blank";
+    } catch (e) {
+      loaded = false;
+    }
 
-      try {
-        loaded = frame.contentWindow.location.href !== "about:blank";
-      } catch (e) {
-        loaded = false;
-      }
+    showLoading(false);
 
-      if (loaded) {
-        showLoading(false);
-        window.open(directUrl, "_blank");
-      } else if (attempts < maxAttempts) {
-        tryLoad();
-      } else {
-        showLoading(false);
-        window.open(gviewUrl, "_blank");
-      }
-    }, 900);
-  }
-
-  tryLoad();
+    if (loaded) {
+      window.open(directUrl, "_blank");
+    } else {
+      window.open(gviewUrl, "_blank");
+    }
+  }, 2500); // 2.5 secondi
 }
 
 
