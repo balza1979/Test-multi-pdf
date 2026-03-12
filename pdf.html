@@ -114,8 +114,11 @@ h1 {
 const params = new URLSearchParams(window.location.search);
 const cartella = params.get("cartella");
 
-document.getElementById("titolo").textContent = "PDF in: " + cartella;
 
+document.getElementById("titolo").innerHTML =
+    "PDF in: " + cartella + "<br>" +
+    "Vedi/Scarica: apre o scarica il PDF<br>" +
+    "Vedi Online: apre sempre il PDF nel browser";
 fetch("elenco.json")
   .then(r => r.json())
   .then(data => {
