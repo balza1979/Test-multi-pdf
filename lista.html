@@ -102,16 +102,14 @@ fetch(apiUrl)
       card.className = "card";
 
       card.innerHTML = `
-        <span>📄 ${pdf.name}</span>
-        <button onclick="window.open('${pdfUrl}', '_blank')">Apri</button>
-      `;
-
-      container.appendChild(card);
-    });
-  })
-  .catch(err => console.error("Errore nel caricamento dei PDF:", err));
+  <span>📄 ${pdf.name}</span>
+  <button onclick="window.open('${pdfUrl}', '_blank')">Apri</button>
+`;
+container.appendChild(card);
+});
+})
+.catch(err => console.error("Errore nel caricamento dei PDF:", err));
 </script>
 
 </body>
 </html>
-
