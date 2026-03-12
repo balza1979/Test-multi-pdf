@@ -43,6 +43,7 @@ h1 {
   font-size: 40px;
   font-weight: 700;
   margin-bottom: 15px;
+  color: red; /* 🔥 ECCO LA RIGA CHE TI SERVIVA */
 }
 .button-row {
   display: flex;
@@ -120,6 +121,7 @@ document.getElementById("titolo").innerHTML =
     "DESCRIZIONE COMANDI:" + "<br>"  +
     "SE PREMI 'Vedi/Scarica': apre o scarica in base al browser<br>" +
     "SE PREMI 'Vedi Online': visualizza sempre online più lento per controlli";
+
 fetch("elenco.json")
   .then(r => r.json())
   .then(data => {
@@ -149,28 +151,24 @@ fetch("elenco.json")
   });
 
 
-// 🔵 VEDI/SCARICA (comportamento nativo)
+// 🔵 VEDI/SCARICA
 function openFast(url) {
   window.open(url, "_blank");
 }
 
 
-// 🟢 VEDI ONLINE (scheda aperta subito + loader + test + fallback)
+// 🟢 VEDI ONLINE
 function openSafe(directUrl, gviewUrl) {
 
-  // 1️⃣ Apriamo SUBITO una scheda con loader (percorso assoluto)
   const newTab = window.open("https://balza1979.github.io/Test-multi-pdf/loading.html", "_blank");
 
-  if (!newTab) return; // popup blocker
+  if (!newTab) return;
 
-  // 2️⃣ Mostriamo popup nella pagina principale
   showLoading(true, "Caricamento del documento...", "Attendere qualche secondo");
 
-  // 3️⃣ Avviamo test invisibile
   const frame = document.getElementById("testFrame");
   frame.src = directUrl;
 
-  // 4️⃣ Dopo 5 secondi decidiamo cosa fare
   setTimeout(() => {
     let loaded = false;
 
@@ -182,7 +180,6 @@ function openSafe(directUrl, gviewUrl) {
 
     showLoading(false);
 
-    // 5️⃣ Cambiamo l’URL della scheda già aperta
     if (loaded) {
       newTab.location.href = directUrl;
     } else {
@@ -199,10 +196,4 @@ function showLoading(show, title = "", subtitle = "") {
   const sub = document.getElementById("loadingSub");
 
   popup.style.display = show ? "block" : "none";
-  if (title) popup.childNodes[0].textContent = "⏳ " + title;
-  if (subtitle) sub.textContent = subtitle;
-}
-</script>
-
-</body>
-</html>
+  if (title) popup.child
