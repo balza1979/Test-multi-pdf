@@ -196,4 +196,10 @@ function showLoading(show, title = "", subtitle = "") {
   const sub = document.getElementById("loadingSub");
 
   popup.style.display = show ? "block" : "none";
-  if (title) popup.child
+  if (title) popup.childNodes[0].textContent = "⏳ " + title;
+  if (subtitle) sub.textContent = subtitle;
+}
+</script>
+
+</body>
+</html>
