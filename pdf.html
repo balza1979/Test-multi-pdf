@@ -31,6 +31,8 @@ h1 {
 .back-button:hover {
     background-color: #025aa5;
 }
+
+/* CARD LAYOUT */
 .card {
   background: white;
   padding: 20px;
@@ -38,28 +40,38 @@ h1 {
   max-width: 850px;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-.card-title {
-  font-size: 40px;
-  font-weight: 700;
-  margin-bottom: 15px;
-  color: red; /* 🔥 ECCO LA RIGA CHE TI SERVIVA */
-}
-.button-row {
   display: flex;
-  gap: 20px;
+  justify-content: space-between;
+  align-items: center;
 }
+
+.card-title {
+  font-size: 36px;
+  font-weight: 700;
+  color: red;
+  max-width: 60%;
+  word-break: break-word;
+}
+
+/* Pulsanti in colonna a destra */
+.button-column {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
 .card button {
   background: #007bff;
   color: white;
   border: none;
-  padding: 18px 32px;
+  padding: 16px 28px;
   border-radius: 6px;
   cursor: pointer;
-  font-size: 26px;
+  font-size: 22px;
   font-weight: 700;
-  flex: 1;
+  width: 220px;
 }
+
 .card button:hover {
   background: #0056b3;
 }
@@ -115,7 +127,6 @@ h1 {
 const params = new URLSearchParams(window.location.search);
 const cartella = params.get("cartella");
 
-
 document.getElementById("titolo").innerHTML =
     "PDF in: " + cartella + "<br>" +
     "DESCRIZIONE COMANDI:" + "<br>"  +
@@ -140,7 +151,7 @@ fetch("elenco.json")
 
       card.innerHTML = `
         <div class="card-title">📄 ${pdf}</div>
-        <div class="button-row">
+        <div class="button-column">
           <button onclick="openFast('${directUrl}')">Vedi/Scarica</button>
           <button onclick="openSafe('${directUrl}', '${gviewUrl}')">Vedi Online</button>
         </div>
