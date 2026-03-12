@@ -117,8 +117,8 @@ const cartella = params.get("cartella");
 
 document.getElementById("titolo").innerHTML =
     "PDF in: " + cartella + "<br>" +
-    "Vedi/Scarica: apre o scarica il PDF<br>" +
-    "Vedi Online: apre sempre il PDF nel browser";
+    "Vedi/Scarica: apre o scarica in base al browser<br>" +
+    "Vedi Online: visualizza sempre online e non scarica mai";
 fetch("elenco.json")
   .then(r => r.json())
   .then(data => {
