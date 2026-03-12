@@ -10,29 +10,31 @@ body {
   background: #eef1f5;
   padding: 40px;
 }
+
 h1 {
   text-align: center;
 }
-  .back-button {
-    position: fixed;
-    
-    top: 15px;
-    right: 15px;
-    background-color: red;
-    color: white;
-    padding: 20px 28px;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: bold;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.25);
-    transition: background-color 0.2s ease;
-    z-index: 999;
-    font-size: 26px;
+
+.back-button {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  background-color: red;
+  color: white;
+  padding: 20px 28px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+  transition: background-color 0.2s ease;
+  z-index: 999;
+  font-size: 26px;
 }
 
 .back-button:hover {
-    background-color: red;
+  background-color: red;
 }
+
 .card {
   background: white;
   color: red;
@@ -45,12 +47,14 @@ h1 {
   justify-content: space-between;
   align-items: center;
 }
+
 .card span {
   font-size: 40px;
   font-weight: 700;
   color: red;
-  -webkit-text-fill-color: red;
+  -webkit-text-fill-color: red; /* forza il colore anche sull’icona */
 }
+
 .card button {
   background: #007bff;
   color: red;
@@ -61,6 +65,7 @@ h1 {
   font-size: 28px;
   font-weight: 700;
 }
+
 .card button:hover {
   background: #0056b3;
 }
@@ -68,6 +73,7 @@ h1 {
 </head>
 
 <body>
+
 <a class="back-button" href="index.html">⬅ Torna Indietro</a>
 
 <h1 id="titolo"></h1>
@@ -77,40 +83,4 @@ h1 {
 const params = new URLSearchParams(window.location.search);
 const cartella = params.get("cartella");
 
-document.getElementById("titolo").textContent = "PDF in: " + cartella;
-
-const owner = "balza1979";
-const repo = "Test-multi-pdf";
-
-const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/pdf/${cartella}`;
-
-fetch(apiUrl)
-  .then(response => response.json())
-  .then(files => {
-    const pdfs = files.filter(f => f.name.toLowerCase().endsWith(".pdf"));
-    const container = document.getElementById("pdf-container");
-
-    pdfs.forEach(pdf => {
-      const encodedName = encodeURIComponent(pdf.name);
-      const encodedFolder = encodeURIComponent(cartella);
-
-      // URL diretto a Google Docs Viewer (come nel progetto originale)
-      const pdfUrl =
-        `https://docs.google.com/gview?embedded=1&url=` +
-        `https://${owner}.github.io/${repo}/pdf/${encodedFolder}/${encodedName}`;
-
-      const card = document.createElement("div");
-      card.className = "card";
-
-      card.innerHTML = `
-  <span>📄 ${pdf.name}</span>
-  <button onclick="window.open('${pdfUrl}', '_blank')">Apri</button>
-`;
-container.appendChild(card);
-});
-})
-.catch(err => console.error("Errore nel caricamento dei PDF:", err));
-</script>
-
-</body>
-</html>
+document
