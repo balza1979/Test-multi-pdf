@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="it">
 <head>
 <meta charset="UTF-8">
@@ -88,8 +88,7 @@
 </head>
 <body>
 
-<!-- 🔴 HOME BUTTON RIPRISTINATO CORRETTO! -->
-https://balza1979.github.io/Elmi-Documenti/Home</a>
+<a class="home-button" href="https://balza1979.github.io/Elmi-Documenti/">Home</a>
 
 <h1>Seleziona una Cartella</h1>
 
@@ -107,7 +106,7 @@ fetch("elenco.json")
 
       card.innerHTML = `
         <span>${cartella}</span>
-        pdf.html?cartella=${encodeURIComponent(cartella)}Apri</button>
+        <button onclick="window.location.href='pdf.html?cartella=${encodeURIComponent(cartella)}'">Apri</button>
       `;
 
       container.appendChild(card);
