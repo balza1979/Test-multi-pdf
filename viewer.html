@@ -19,12 +19,18 @@ iframe {
 <body>
 
 <script>
+// Legge il parametro ?file=...
 const params = new URLSearchParams(window.location.search);
 const file = params.get("file");
 
-const pdfUrl = `https://docs.google.com/gview?embedded=1&url=https://balza1979.github.io/Test-multi-pdf/pdf/${file}`;
+// Ottiene automaticamente la cartella corrente
+const baseURL = window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, "");
 
-document.write(`<iframe src="${pdfUrl}"></iframe>`);
+// URL completo del PDF
+const pdfUrl = `https://docs.google.com/gview?embedded=1&url=${baseURL}/pdf/${file}`;
+
+// Inserisce l’iframe
+document.write(`${pdfUrl}</iframe>`);
 </script>
 
 </body>
